@@ -1,10 +1,10 @@
 {
-  "name": "api",
-  "version": "0.0.1",
+  "name": "@app/api",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "start": "node dist/index.js"
+    "start": "tsx src/index.ts"
   },
   "dependencies": {
     "@fastify/cors": "^8.5.0",
