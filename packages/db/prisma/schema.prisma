@@ -1,0 +1,202 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  role         Role       @default(EDITOR)
+  active       Boolean    @default(true) // NEW
+  name         String? // NEW
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  AuditLog     AuditLog[]
+  Wallet       Wallet?
+}
+
+model Topic {
+  id        String      @id @default(cuid())
+  slug      String      @unique
+  title     String
+  status    TopicStatus @default(NEW)
+  score     Float       @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  articles  Article[]
+  sources   Source[]
+  auditLogs AuditLog[]
+}
+
+model Source {
+  id          String       @id @default(cuid())
+  url         String
+  title       String?
+  kind        SourceKind
+  contentType ContentType? // 👈 new column
+  approved    Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  topicId     String?
+  articles    Article[]
+  topic       Topic?       @relation(fields: [topicId], references: [id])
+}
+
+model Category {
+  id            String        @id @default(cuid())
+  name          String
+  slug          String        @unique
+  order         Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  subcategories Subcategory[]
+  Article       Article[]
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id         String    @id @default(cuid())
+  name       String
+  slug       String
+  order      Int       @default(0)
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Article    Article[]
+
+  @@map("subcategories")
+}
+
+model Article {
+  id              String       @id @default(cuid())
+  slug            String       @unique
+  title           String
+  contentType     ContentType?
+  tl_dr           String?
+  body_html       String
+  faq_html        String?
+  outline_json    Json?
+  metaTitle       String?
+  metaDescription String?
+  keywords        Json?
+  coverImageUrl   String?
+  publishedAt     DateTime?
+  topicId         String?
+  sourceId        String?
+  categoryId      String?
+  subcategoryId   String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  source      Source?      @relation(fields: [sourceId], references: [id])
+  topic       Topic?       @relation(fields: [topicId], references: [id])
+  citations   Citation[]
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  subcategory Subcategory? @relation(fields: [subcategoryId], references: [id])
+}
+
+model Citation {
+  id         String  @id @default(cuid())
+  articleId  String
+  sourceUrl  String
+  sourceType String
+  title      String?
+  author     String?
+  timestamp  Int?
+  quote      String?
+  article    Article @relation(fields: [articleId], references: [id])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  // relations
+  user      User?     @relation(fields: [userId], references: [id])
+  topicId   String?
+  topic     Topic?   @relation(fields: [topicId], references: [id])
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  coins     Int      @default(0)
+  tier      String   @default("free")
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model WalletLedger {
+  id        String   @id @default(cuid())
+  userId    String
+  event     String
+  delta     Int
+  meta      Json?
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  ANALYST
+}
+
+enum TopicStatus {
+  NEW
+  APPROVED
+  PROCESSING
+  COLLECTED
+  DRAFTED
+  ASSIGNED
+  READY
+  PUBLISHED
+  DISAPPROVED
+  DUPLICATE
+}
+
+enum SourceKind {
+  NEWS
+  BLOG
+  YOUTUBE
+  SPEC
+  LAUNCH
+  COMPARISON
+  SALES
+  REVIEW
+  HOWTO
+  ANALYSIS
+  RUMOR
+}
+
+enum ContentType {
+  NEWS
+  LAUNCH
+  SPECIFICATION
+  COMPARISON
+  SALES
+  REVIEW
+  HOWTO
+  ANALYSIS
+  RUMOR
+}
+
+enum ArticleStatus {
+  DRAFTING
+  TITLE_READY
+  CONTENT_READY
+  SLUG_DONE
+  KEYWORDS_DONE
+  CATEGORIZED
+  READY_TO_PUBLISH
+  PUBLISHED
+}

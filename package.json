@@ -1,0 +1,35 @@
+{
+  "name": "teoram",
+  "private": true,
+  "scripts": {
+    "dev:api": "pnpm --filter @app/api dev",
+    "dev:cms": "pnpm --filter @app/cms dev",
+    "workers:run": "pnpm --filter @app/workers start",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format": "prettier -w .",
+    "db:migrate": "pnpm --filter @pkg/db prisma migrate deploy",
+    "seed": "pnpm --filter @app/workers exec tsx src/seed.ts"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/cheerio": "^1.0.0",
+    "@types/node": "^20.12.12",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.20.5",
+    "turbo": "^2.0.4",
+    "typescript": "^5.6.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "sharp": "0.33.3"
+    }
+  },
+  "dependencies": {
+    "cheerio": "^1.1.2"
+  }
+}
