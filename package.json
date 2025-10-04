@@ -2,15 +2,16 @@
   "name": "teoram",
   "private": true,
   "scripts": {
-    "dev:api": "pnpm --filter @app/api dev",
-    "dev:cms": "pnpm --filter @app/cms dev",
-    "workers:run": "pnpm --filter @app/workers start",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "format": "prettier -w .",
-    "db:migrate": "pnpm --filter @pkg/db prisma migrate deploy",
-    "seed": "pnpm --filter @app/workers exec tsx src/seed.ts"
-  },
+  "dev:api": "pnpm --filter @app/api dev",
+  "dev:cms": "pnpm --filter @app/cms dev",
+  "workers:run": "pnpm --filter @app/workers start",
+  "build": "turbo build",
+  "lint": "turbo lint",
+  "format": "prettier -w .",
+  "db:migrate": "pnpm --filter @pkg/db prisma migrate deploy",
+  "seed": "pnpm --filter @app/workers exec tsx src/seed.ts",
+  "prisma:generate": "pnpm --filter @pkg/db prisma generate --schema=packages/db/prisma/schema.prisma"
+},
   "workspaces": [
     "apps/*",
     "packages/*"
