@@ -136,9 +136,9 @@ importers:
       '@google/generative-ai':
         specifier: ^0.24.1
         version: 0.24.1
-      '@prisma/client':
-        specifier: ^5.22.0
-        version: 5.22.0(prisma@5.22.0)
+      '@pkg/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@qdrant/js-client-rest':
         specifier: ^1.15.1
         version: 1.15.1(typescript@5.9.3)
@@ -151,9 +151,6 @@ importers:
       core:
         specifier: workspace:*
         version: link:../../packages/core
-      db:
-        specifier: workspace:*
-        version: link:../../packages/db
       dotenv:
         specifier: ^17.2.2
         version: 17.2.3
@@ -246,15 +243,15 @@ importers:
 
   apps/workers:
     dependencies:
+      '@pkg/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       cheerio:
         specifier: ^1.0.0
         version: 1.1.2
       core:
         specifier: workspace:*
         version: link:../../packages/core
-      db:
-        specifier: workspace:*
-        version: link:../../packages/db
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1

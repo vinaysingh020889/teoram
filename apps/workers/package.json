@@ -14,7 +14,7 @@
     "robots-parser": "^3.0.1",
     "youtube-transcript": "^1.2.1",
     "yt-dlp-exec": "^1.0.2",
-    "db": "workspace:*",
+    "@pkg/db": "workspace:*",
     "core": "workspace:*",
     "dotenv": "^16.4.5"
   },
