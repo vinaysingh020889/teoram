@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+// packages/db/src/index.ts
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -14,5 +16,5 @@ if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
 }
 
-// Optionally export PrismaClient type too
+// Optional: export PrismaClient type too
 export type { PrismaClient } from '@prisma/client';
