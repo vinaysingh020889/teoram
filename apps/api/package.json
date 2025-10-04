@@ -1,7 +1,6 @@
 {
   "name": "@app/api",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
     "start": "tsx src/index.ts"
