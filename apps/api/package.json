@@ -21,7 +21,7 @@
     "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "core": "workspace:*",
-    "db": "workspace:*",
+    "@pkg/db": "workspace:*",
     "dotenv": "^17.2.2",
     "fastify": "^4.29.1",
     "googleapis": "^160.0.0",
