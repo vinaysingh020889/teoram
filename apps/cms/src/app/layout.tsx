@@ -1,8 +1,9 @@
+//apps/cms/src/app/layout.tsx
 import "../styles/globals.css";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { AuthProvider } from "../lib/auth";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="cms">
       <body>
