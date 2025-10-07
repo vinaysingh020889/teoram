@@ -6,6 +6,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/www/:path*',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
