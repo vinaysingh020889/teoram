@@ -6,21 +6,21 @@
     "start": "tsx src/index.ts"
   },
   "dependencies": {
-    "google-trends-api": "^4.9.0",
-    "rss-parser": "^3.13.0",
     "cheerio": "^1.0.0",
-    "undici": "^6.19.8",
+    "core": "workspace:*",
+    "db": "workspace:*",
+    "dotenv": "^16.4.5",
+    "google-trends-api": "^4.9.2",
     "p-limit": "^6.0.0",
     "robots-parser": "^3.0.1",
+    "rss-parser": "^3.13.0",
+    "undici": "^6.19.8",
     "youtube-transcript": "^1.2.1",
-    "yt-dlp-exec": "^1.0.2",
-    "@pkg/db": "workspace:*",
-    "core": "workspace:*",
-    "dotenv": "^16.4.5"
+    "yt-dlp-exec": "^1.0.2"
   },
   "devDependencies": {
-    "typescript": "^5.6.2",
+    "@types/node": "^20.12.12",
     "tsx": "^4.19.1",
-    "@types/node": "^20.12.12"
+    "typescript": "^5.6.2"
   }
 }

@@ -1,8 +1,8 @@
 // apps/api/src/routes/agents.ts
 import { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
-import { prisma } from "db";
-import { TopicStatus } from "@prisma/client";
+import { prisma, TopicStatus } from "db";
+
 
 // Existing workers (batch jobs)
 import { topicDiscovery } from "../../../workers/src/jobs/topicDiscovery.js";

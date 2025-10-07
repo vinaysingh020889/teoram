@@ -1,5 +1,5 @@
 import { prisma } from "db";
-import { TopicStatus, ContentType } from "@prisma/client";
+import { TopicStatus, ContentType } from "db";
 import { fetchGoogleTrends } from "../lib/trends/googleTrends.js";
 import { groupTitlesWithGemini, SourceInput } from "../lib/gemini.js";
 import { slugify } from "../lib/slugify.js";

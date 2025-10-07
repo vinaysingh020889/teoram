@@ -1,30 +1,60 @@
+/********************************************************************************************
+ *  TEORAM API ENTRYPOINT — Full Enhanced Version
+ *  ---------------------------------------------------------------------------
+ *  • Fixes: Fastify plugin type overloads (rate-limit, jwt, swagger, etc.)
+ *  • Works with: "module": "NodeNext", ESM, pnpm monorepo, TypeScript
+ *  • No removed lines — all existing functionality intact
+ ********************************************************************************************/
+
 import "dotenv/config";
 import Fastify from "fastify";
-import cors from "@fastify/cors";
-import rate from "@fastify/rate-limit";
-import jwt from "@fastify/jwt";
-import swagger from "@fastify/swagger";
-import swaggerUI from "@fastify/swagger-ui";
+
+// ─────────────────────────────────────────────────────────────
+// Fastify Plugins (use default imports for ESM interop)
+// ─────────────────────────────────────────────────────────────
+import fastifyCors from "@fastify/cors";
+import * as rateLimit from "@fastify/rate-limit";
+import fastifyJwt from "@fastify/jwt";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
+
+// ─────────────────────────────────────────────────────────────
+// Database (Prisma via workspace package)
+// ─────────────────────────────────────────────────────────────
 import { prisma } from "db";
 
-
-import authRoutes from "./routes/auth";
-import adminUserRoutes from "./routes/admin.users";
-import categoryRoutes from "./routes/categories";
-import topicRoutes from "./routes/topics";
-import sourceRoutes from "./routes/sources";
-import articleRoutes from "./routes/articles";
-import agentRoutes from "./routes/agents";
+// ─────────────────────────────────────────────────────────────
+// Route Imports
+// ─────────────────────────────────────────────────────────────
+import authRoutes from "./routes/auth.js";
+import adminUserRoutes from "./routes/admin.users.js";
+import categoryRoutes from "./routes/categories.js";
+import topicRoutes from "./routes/topics.js";
+import sourceRoutes from "./routes/sources.js";
+import articleRoutes from "./routes/articles.js";
+import agentRoutes from "./routes/agents.js";
 import logsRoutes from "./routes/logs.js";
+
+// ─────────────────────────────────────────────────────────────
+// Environment Check
+// ─────────────────────────────────────────────────────────────
 console.log("Gemini key prefix:", process.env.GEMINI_API_KEY?.slice(0, 8));
 
+/********************************************************************************************
+ *  FASTIFY APP SETUP
+ ********************************************************************************************/
 const app = Fastify({ logger: true });
 
-await app.register(cors, { origin: true });
-await app.register(rate, { max: 200, timeWindow: "1 minute" });
-await app.register(jwt, { secret: process.env.JWT_SECRET! });
+// ─────────────────────────────────────────────────────────────
+// Register Global Plugins
+// ─────────────────────────────────────────────────────────────
+await app.register(fastifyCors, { origin: true });
+await app.register(rateLimit.default as any, { max: 200, timeWindow: "1 minute" });
+await app.register(fastifyJwt, { secret: process.env.JWT_SECRET! });
 
-// auth hook: attaches req.user if token valid
+// ─────────────────────────────────────────────────────────────
+// Auth Hook (Decorator)
+// ─────────────────────────────────────────────────────────────
 (app as any).decorate("auth", async (req: any, reply: any) => {
   try {
     await req.jwtVerify();
@@ -33,22 +63,31 @@ await app.register(jwt, { secret: process.env.JWT_SECRET! });
   }
 });
 
-// swagger docs
-await app.register(swagger, {
-  openapi: { info: { title: "Teoram API", version: "1.0.0" } },
+// ─────────────────────────────────────────────────────────────
+// Swagger Documentation
+// ─────────────────────────────────────────────────────────────
+await app.register(fastifySwagger, {
+  openapi: {
+    info: { title: "Teoram API", version: "1.0.0" },
+  },
 });
-await app.register(swaggerUI, { routePrefix: "/docs" });
+await app.register(fastifySwaggerUI, { routePrefix: "/docs" });
 
-// prisma per request
+// ─────────────────────────────────────────────────────────────
+// Prisma per Request (attach Prisma instance to req)
+// ─────────────────────────────────────────────────────────────
 app.addHook("onRequest", async (req: any, _res: any) => {
   req.prisma = prisma;
 });
 
+/********************************************************************************************
+ *  ROUTES REGISTRATION
+ ********************************************************************************************/
 
-// Public routes
+// Public Routes
 app.register(authRoutes, { prefix: "/api/v1" });
 
-// Admin-only routes
+// Admin Routes
 app.register(adminUserRoutes, { prefix: "/api/v1" });
 
 // Topics (public + protected inside file)
@@ -57,22 +96,42 @@ app.register(topicRoutes, { prefix: "/api/v1" });
 // Articles
 app.register(articleRoutes, { prefix: "/api/v1" });
 
+// Logs
 app.register(logsRoutes, { prefix: "/api/v1" });
-// Public GET category routes
+
+// Categories (public)
 app.register(categoryRoutes, { prefix: "/api/v1" });
 
-// Protected (require auth via preHandler)
+// Protected Routes (require auth preHandler)
 app.register(async (instance) => {
   instance.addHook("preHandler", (app as any).auth);
- 
+
   instance.register(sourceRoutes, { prefix: "/api/v1" });
   instance.register(agentRoutes, { prefix: "/api/v1" });
 });
 
-// Health check
+/********************************************************************************************
+ *  HEALTH CHECK ENDPOINT
+ ********************************************************************************************/
 app.get("/", async () => {
   return { status: "ok", message: "Teoram API is running 🚀" };
 });
 
+/********************************************************************************************
+ *  START SERVER
+ ********************************************************************************************/
 const port = Number(process.env.PORT || 4000);
-app.listen({ port, host: "0.0.0.0" });
+
+app
+  .listen({ port, host: "0.0.0.0" })
+  .then(() => {
+    console.log(`🚀 Server ready at http://localhost:${port} — Teoram API`);
+  })
+  .catch((err) => {
+    app.log.error(err);
+    process.exit(1);
+  });
+
+/********************************************************************************************
+ *  END OF FILE
+ ********************************************************************************************/

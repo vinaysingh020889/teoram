@@ -2,9 +2,9 @@
 import { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { prisma } from "db";
-import { TopicStatus, ContentType } from "@prisma/client";
+import { TopicStatus, ContentType } from "db";
 // ✅ keep your worker-based discovery intact
-import { runTopicDiscovery } from "../agents/topicDiscovery";
+import { runTopicDiscovery } from "../agents/topicDiscovery.js";
 
 // ⬇️ NEW: helpers we need for approve → merged title + article save
 import { mergeTitlesForArticle, categorizeWithLLM } from "../lib/gemini.js";

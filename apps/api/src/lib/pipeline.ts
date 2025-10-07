@@ -3,11 +3,11 @@ import { prisma } from "db";
 import {
   Prisma,           // needed for JsonNull/InputJsonValue
   TopicStatus,      // enum for status transitions
-  type SourceKind,
-  type ContentType,
-  type Topic,
-  type Source,
-} from "@prisma/client";
+  SourceKind,
+  ContentType,
+  Topic,
+  Source,
+} from "db";
 import { fetchGoogleTrends } from "./trends/googleTrends.js";
 import {
   groupTitlesWithGemini,

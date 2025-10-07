@@ -4,7 +4,7 @@ import { fetchGoogleTrends } from "./trends/googleTrends.js";
 // import { fetchYouTubeTrends } from "./trends/youtubeTrends.js";
 import { groupTitlesWithGemini } from "./gemini.js";
 import { slugify } from "./slugify.js";
-import type { SourceKind, ContentType } from "@prisma/client";
+import type { SourceKind, ContentType } from "db";
 
 type InputItem = {
   title: string;

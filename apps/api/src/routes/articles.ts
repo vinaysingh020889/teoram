@@ -1,9 +1,8 @@
 import { FastifyPluginAsync } from "fastify";
-import { prisma } from "db";
+import { prisma, ContentType, Prisma } from "db";  // ✅ add Prisma here
 import { z } from "zod";
-import type { Prisma } from "@prisma/client";
-import { ContentType } from "@prisma/client";
-import { slugify } from "../lib/slugify";
+import { slugify } from "../lib/slugify.js";
+
 // NOTE: This file assumes your Prisma `Article` model has relations:
 //   category   Category?   @relation(fields: [categoryId], references: [id])
 //   subcategory Subcategory? @relation(fields: [subcategoryId], references: [id])

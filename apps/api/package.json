@@ -21,9 +21,10 @@
     "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "core": "workspace:*",
-    "@pkg/db": "workspace:*",
+    "db": "workspace:*",
     "dotenv": "^17.2.2",
     "fastify": "^4.29.1",
+    "google-trends-api": "^4.9.2",
     "googleapis": "^160.0.0",
     "node-cron": "^4.2.1",
     "rss-parser": "^3.13.0",
@@ -35,7 +36,7 @@
     "@types/xml2js": "^0.4.14",
     "prisma": "^5.22.0",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.1",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.2"
   }
 }

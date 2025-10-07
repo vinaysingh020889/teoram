@@ -1,6 +1,6 @@
 // apps/api/src/lib/gemini.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Prisma, SourceKind, ContentType } from "@prisma/client";
+import { Prisma, SourceKind, ContentType } from "db";
 
 // ---------- Init ----------
 if (!process.env.GEMINI_API_KEY) {
