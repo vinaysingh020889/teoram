@@ -1,8 +1,9 @@
+//appscms/src/app/(protected)/articles/new/page.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "../../../../lib/api";
-import { slugify } from "../../../../../../api/src/lib/slugify";
+import { slugify } from "../../../../lib/slugify";
 
 export default function NewArticlePage() {
   const router = useRouter();

@@ -1,3 +1,4 @@
+//appscms/src/app/(protected)/topics/discovery/page.tsx
 import DiscoveryClient from "./DiscoveryClient";
 
 export default function DiscoveryPage() {

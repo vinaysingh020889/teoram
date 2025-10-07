@@ -1,5 +1,5 @@
+//appscms/src/app/(protected)/articles/page.tsx
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api } from "../../../lib/api";

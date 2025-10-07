@@ -1,3 +1,4 @@
+//appscms/src/app/(protected)/dashboard/DashboardClient.tsx
 "use client";
 import { api } from "../../../lib/api";
 import { useState, useMemo } from "react";

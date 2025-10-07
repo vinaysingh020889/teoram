@@ -1,17 +1,45 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "allowJs": true,
     "noEmit": true,
     "incremental": true,
-    "types": ["react", "react-dom", "node"],
-    "typeRoots": ["./types", "../../node_modules/@types"],
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "isolatedModules": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "plugins": [{ "name": "next" }]
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "strict": true,
+    "types": [
+      "react",
+      "react-dom",
+      "node"
+    ],
+    "typeRoots": [
+      "../../node_modules/@types",
+      "./node_modules/@types"
+    ],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -19,7 +19,7 @@ const menuItems = [
   { name: "Logs", href: "/logs" },
 ];
 
-export default function CMSLayout({ children }: { children: ReactNode }) {
+export default function CMSLayout({ children }: { children: React.ReactNode }) {
   const { logout } = useAuth(); // ✅ get logout function
 
   return (

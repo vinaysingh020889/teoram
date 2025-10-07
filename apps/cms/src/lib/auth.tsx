@@ -1,5 +1,6 @@
+//apps/cms/src/lib/auth.tsx
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { api } from "./api";
 import { useRouter } from "next/navigation";
 

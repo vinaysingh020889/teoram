@@ -1,3 +1,4 @@
+//appscms/src/app/(protected)/logs/page.tsx
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "../../../lib/api";
