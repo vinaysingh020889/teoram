@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build -p -c tsconfig.cms.json",
+    "build": "next build -c tsconfig.cms.json",
     "start": "next start"
   },
   "dependencies": {
