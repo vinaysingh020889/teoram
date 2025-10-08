@@ -16,7 +16,7 @@ export default function SearchBar() {
       className="search-hero"
     >
       <input
-        placeholder="Search articles..."
+        placeholder="Search articles..." className="input input--search"
         value={q}
         onChange={(e) => setQ(e.target.value)}
       />

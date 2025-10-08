@@ -35,7 +35,7 @@ useEffect(() => {
       {counts.length === 0 ? (
         <p className="text-muted">No keywords yet.</p>
       ) : (
-       <div className="flex flex-wrap gap-3">
+       <div className="keyword-list mt-5 flex">
   {counts.map(([k, n]) => {
     const size = Math.min(12 + n * 2, 34);
     return (

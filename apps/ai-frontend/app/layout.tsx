@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Script from "next/script"; // ✅ add this import
+import Script from "next/script";
 import "./styles/globals.css";
+import LayoutClient from "./LayoutClient";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 
@@ -45,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics (gtag.js) */}
+        {/* Google Analytics */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-QX4VKGZ2EV"
@@ -67,10 +68,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="cms-shell">
+        <div className="page-loader" />
         <Sidebar />
         <div className="cms-main">
           <Topbar />
-          <div className="cms-content">{children}</div>
+          {/* ✅ Wrap children inside the client layout */}
+          <LayoutClient>{children}</LayoutClient>
         </div>
       </body>
     </html>
