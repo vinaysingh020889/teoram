@@ -1,0 +1,13 @@
+# robots.txt for https://teoram.com
+User-agent: *
+Allow: /
+
+# Block sensitive or non-public routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+Disallow: /admin/
+Disallow: /login/
+
+# Sitemap reference
+Sitemap: https://teoram.com/sitemap.xml
