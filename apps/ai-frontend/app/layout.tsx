@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script"; // ✅ add this import
 import "./styles/globals.css";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
@@ -43,6 +44,28 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-QX4VKGZ2EV"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-QX4VKGZ2EV', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+      </head>
       <body className="cms-shell">
         <Sidebar />
         <div className="cms-main">
