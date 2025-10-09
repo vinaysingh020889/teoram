@@ -1,3 +1,4 @@
+//apps/ai-frontend/components/topbar.tsx
 "use client";
 import Link from "next/link";
 import SearchBar from "./SearchBar";

@@ -75,6 +75,63 @@ app.get("/topics/:id", { preHandler: (app as any).auth }, async (req) => {
   return { data: { ...t, article } };
 });
 
+// === Topic Threads (public view) — show timeline of articles under each topic ===
+app.get("/topics/threads", { preHandler: [] }, async () => {
+  const topics = await prisma.topic.findMany({
+    where: {
+      // adjust filter as you want — e.g., show only approved/published topics
+      OR: [
+        { status: TopicStatus.PUBLISHED },
+        { status: TopicStatus.APPROVED },
+        { status: TopicStatus.READY },
+      ],
+    },
+    include: {
+      articles: {
+        where: { publishedAt: { not: null } },
+        orderBy: { publishedAt: "asc" },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          publishedAt: true,
+          createdAt: true,
+        },
+      },
+      threads: {
+        select: {
+          id: true,
+          summary: true,
+          timeline: true,
+          updatedAt: true,
+        },
+      },
+    },
+    orderBy: { lastSeenAt: "desc" },
+  });
+
+  // shape the data nicely for frontend
+  const data = topics.map((t) => ({
+    id: t.id,
+    title: t.title,
+    slug: t.slug,
+    summary: t.threads?.[0]?.summary ?? null,
+    timeline:
+      t.threads?.[0]?.timeline ??
+      t.articles.map((a) => ({
+        id: a.id,
+        title: a.title,
+        slug: a.slug,
+        date: a.publishedAt ?? a.createdAt,
+      })),
+    lastSeenAt: t.lastSeenAt,
+    updatedAt: t.updatedAt,
+  }));
+
+  return { data };
+});
+
+
 // === Single topic detail (PUBLIC view) — same shape ===
 app.get("/topics/:id/view", { preHandler: [] }, async (req) => {
   const { id } = z.object({ id: z.string() }).parse(req.params as any);

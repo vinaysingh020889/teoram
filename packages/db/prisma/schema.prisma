@@ -31,6 +31,10 @@ model Topic {
   articles  Article[]
   sources   Source[]
   auditLogs AuditLog[]
+  vectorId        String?     // Qdrant point id
+  titleEmbedding  Json?       // cached embedding array to avoid recompute
+  lastSeenAt      DateTime    @updatedAt
+   threads        TopicThread[]   
 }
 
 model Source {
@@ -45,6 +49,8 @@ model Source {
   topicId     String?
   articles    Article[]
   topic       Topic?       @relation(fields: [topicId], references: [id])
+  urlNorm   String?  @db.Text
+  urlHash   String   @unique
 }
 
 model Category {
@@ -199,4 +205,13 @@ enum ArticleStatus {
   CATEGORIZED
   READY_TO_PUBLISH
   PUBLISHED
+}
+
+model TopicThread {
+  id         String   @id @default(uuid())
+  topicId    String
+  summary    String?
+  timeline   Json?
+  updatedAt  DateTime @updatedAt
+  topic      Topic @relation(fields: [topicId], references: [id])
 }

@@ -11,6 +11,9 @@ importers:
 
   .:
     dependencies:
+      '@qdrant/js-client-rest':
+        specifier: ^1.15.1
+        version: 1.15.1(typescript@5.9.3)
       cheerio:
         specifier: ^1.1.2
         version: 1.1.2

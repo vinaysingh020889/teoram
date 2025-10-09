@@ -34,7 +34,7 @@ import sourceRoutes from "./routes/sources.js";
 import articleRoutes from "./routes/articles.js";
 import agentRoutes from "./routes/agents.js";
 import logsRoutes from "./routes/logs.js";
-
+import { ensureTopicCollection } from "./lib/qdrant.js";
 // ─────────────────────────────────────────────────────────────
 // Environment Check
 // ─────────────────────────────────────────────────────────────
@@ -44,6 +44,10 @@ console.log("Gemini key prefix:", process.env.GEMINI_API_KEY?.slice(0, 8));
  *  FASTIFY APP SETUP
  ********************************************************************************************/
 const app = Fastify({ logger: true });
+
+
+// Call once on boot (top-level await is fine in ESM/NodeNext)
+await ensureTopicCollection();
 
 // ─────────────────────────────────────────────────────────────
 // Register Global Plugins
