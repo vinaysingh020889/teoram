@@ -50,7 +50,7 @@ model Source {
   articles    Article[]
   topic       Topic?       @relation(fields: [topicId], references: [id])
   urlNorm   String?  @db.Text
-  urlHash   String   @unique
+  urlHash   String?   @unique
 }
 
 model Category {
