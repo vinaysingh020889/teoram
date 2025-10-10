@@ -1,3 +1,4 @@
+//apps/api/src/index.ts
 /********************************************************************************************
  *  TEORAM API ENTRYPOINT — Full Enhanced Version
  *  ---------------------------------------------------------------------------
@@ -52,7 +53,17 @@ await ensureTopicCollection();
 // ─────────────────────────────────────────────────────────────
 // Register Global Plugins
 // ─────────────────────────────────────────────────────────────
-await app.register(fastifyCors, { origin: true });
+await app.register(fastifyCors, {
+  origin: [
+    "https://cms.teoram.com",
+    "https://api.teoram.com",
+    "http://localhost:3001",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // allow JWT/cookie cross-domain
+});
+
 await app.register(rateLimit.default as any, { max: 200, timeWindow: "1 minute" });
 await app.register(fastifyJwt, { secret: process.env.JWT_SECRET! });
 
